@@ -24,7 +24,8 @@ public class Context {
                 aliveCount++;
             }
         }
-        System.out.println("Im not alone! There are "+ aliveCount + " copy of me");
+        if (aliveCount > 1)
+            System.out.println("Im not alone! There are "+ aliveCount + " copy of me");
     }
 
 }

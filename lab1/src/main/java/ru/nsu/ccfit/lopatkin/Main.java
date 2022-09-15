@@ -10,7 +10,8 @@ public class Main {
     public static void main(String[] args) throws UnknownHostException {
         Context context = new Context();
 
-        String host = "230.0.0.0";
+        String host = "FF0E:0:0:0:0:0:0:101";
+        //String host = "230.0.0.0";
         int port = 4446;
 
         MulticastMessageHandler multicastMessageHandler = new MulticastMessageHandler(context);
@@ -34,7 +35,6 @@ public class Main {
         Thread publisher = new Thread(multicastPublisher);
         Thread receiver = new Thread(multicastReceiver);
 
-
         receiver.start();
         publisher.start();
 
@@ -43,9 +43,11 @@ public class Main {
 
             if(in.nextLine().equals("e")) break;
         }
+
         multicastPublisher.stop();
         multicastReceiver.stop();
         timer.cancel();
+
         try {
             publisher.join();
             receiver.join();
