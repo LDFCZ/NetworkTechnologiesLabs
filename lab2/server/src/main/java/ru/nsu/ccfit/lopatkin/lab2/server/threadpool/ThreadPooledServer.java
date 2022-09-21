@@ -50,11 +50,14 @@ public class ThreadPooledServer implements Runnable{
                 throw new RuntimeException(
                         ERROR_ACCEPTING_CLIENT_CONNECTION, e);
             }
-
-            ClientTask clientTask = new ClientTask(clientSocket, threadPool);
-            this.clientTasksContext.addClientTask(clientTask);
-            this.threadPool.execute(clientTask);
-            logger.info("New task created");
+            try {
+                ClientTask clientTask = clientTask = new ClientTask(clientSocket, threadPool);
+                this.clientTasksContext.addClientTask(clientTask);
+                this.threadPool.execute(clientTask);
+                logger.info("New task created");
+            } catch (IOException e) {
+                logger.error("Server new client accepting exception\n" + e.getMessage());
+            }
         }
         this.threadPool.shutdown();
         logger.info("Server shutdown");

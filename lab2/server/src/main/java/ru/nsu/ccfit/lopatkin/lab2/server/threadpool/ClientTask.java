@@ -31,24 +31,37 @@ public class ClientTask implements Runnable{
 
     private long prevAllReadBytes = 0;
 
-    private long initTime;
+    private final long initTime;
     private long lastTime;
 
     private boolean isStopped = false;
 
-    public ClientTask(Socket clientSocket, ExecutorService threadPool) {
+    private final DataInputStream clientDataReader;
+    private final ObjectInputStream clientObjectReader;
+    private final ObjectOutputStream clientObjectWriter;
+
+    public ClientTask(Socket clientSocket, ExecutorService threadPool) throws IOException {
         this.clientSocket = clientSocket;
         this.threadPool = threadPool;
         this.initTime = System.currentTimeMillis();
         this.lastTime = this.initTime;
+
+        this.clientDataReader = new DataInputStream(this.clientSocket.getInputStream());
+        this.clientObjectReader = new ObjectInputStream(this.clientSocket.getInputStream());
+        this.clientObjectWriter = new ObjectOutputStream(this.clientSocket.getOutputStream());
+
+    }
+
+    private void doCleanUp() throws IOException {
+        this.clientDataReader.close();
+        this.clientObjectReader.close();
+        this.clientObjectWriter.close();
+        this.fileContext.close();
+        this.clientSocket.close();
     }
 
     public void run() {
-        try (DataInputStream clientDataReader = new DataInputStream(this.clientSocket.getInputStream());
-             ObjectInputStream clientObjectReader = new ObjectInputStream(this.clientSocket.getInputStream());
-             ObjectOutputStream clientObjectWriter = new ObjectOutputStream(this.clientSocket.getOutputStream());
-             this.clientSocket) {
-
+        try {
             if (!this.isFileExchangeStarts) {
                 ClientRequest clientRequest = (ClientRequest) clientObjectReader.readObject();
                 try {
@@ -56,6 +69,7 @@ public class ClientTask implements Runnable{
                 } catch (FileCreateException e) {
                     clientObjectWriter.writeObject(new ServerResponse(ResponseCode.FAILURE_FILENAME_TRANSFER, new BadResponse("Something goes wrong :( \n" + e.getMessage())));
                     logger.error("Task error while file accepting " + e.getMessage());
+                    this.doCleanUp();
                     return;
                 }
                 clientObjectWriter.writeObject(new ServerResponse(ResponseCode.SUCCESS_FILENAME_TRANSFER));
@@ -71,6 +85,7 @@ public class ClientTask implements Runnable{
             } catch (IOException e) {
                 clientObjectWriter.writeObject(new ServerResponse(ResponseCode.FAILURE_FILE_TRANSFER, new BadResponse("Something goes wrong :( \n" + e.getMessage())));
                 logger.error("Task with file - {" + this.fileContext.getFileName() + "} error while file reading " + e.getMessage());
+                this.doCleanUp();
                 return;
             }
             this.printStatistic();
@@ -78,8 +93,8 @@ public class ClientTask implements Runnable{
             if(this.fileContext.IsFileDownloadSuccessfully()) {
                 long speed = this.fileContext.getAllReadBytes() * 1000 / (System.currentTimeMillis() - this.lastTime);
                 clientObjectWriter.writeObject(new ServerResponse(ResponseCode.SUCCESS_FILE_TRANSFER));
-                fileContext.close();
                 logger.info("Task with file - {" + this.fileContext.getFileName() + "} finished! avg speed = " + speed + " byte/sec");
+                this.doCleanUp();
                 return;
             }
 
@@ -88,10 +103,14 @@ public class ClientTask implements Runnable{
             }
             else {
                 clientObjectWriter.writeObject(new ServerResponse(ResponseCode.FAILURE_FILE_TRANSFER, new BadResponse("Something goes wrong :( We stopped file transferring")));
+                this.doCleanUp();
                 logger.error("Task with file - {" + this.fileContext.getFileName() + "} stopped!");
             }
         } catch (Exception e) {
             logger.error("Task socket ex - " + e.getMessage());
+            try {
+                this.doCleanUp();
+            } catch (IOException ignored) {}
         }
     }
 

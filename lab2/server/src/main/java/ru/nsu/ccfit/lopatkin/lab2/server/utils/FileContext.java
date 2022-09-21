@@ -10,10 +10,11 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.concurrent.atomic.AtomicLong;
 
 public class FileContext implements Closeable {
 
-    static volatile long fileCounter = 0;
+    static final AtomicLong fileCounter = new AtomicLong(0);
     private final String fileName;
     private final long fileSize;
     private long allReadBytes = 0;
@@ -66,7 +67,7 @@ public class FileContext implements Closeable {
     }
 
     private String generateRandomFileName(String fileName){
-        return fileCounter + "_" + fileName;
+        return fileCounter.addAndGet(1) + "_" + fileName;
     }
 
     @Override
