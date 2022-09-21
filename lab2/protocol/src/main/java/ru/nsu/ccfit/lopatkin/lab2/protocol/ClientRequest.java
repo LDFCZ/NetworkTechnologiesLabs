@@ -8,13 +8,13 @@ public class ClientRequest implements Serializable {
 
     private final long fileSize;
 
-    private final long bufferSize;
+    private final int bufferSize;
 
     public ClientRequest(String fileName, long fileSize) {
         this(fileName, fileSize, 1000);
     }
 
-    public ClientRequest(String fileName, long fileSize, long bufferSize) {
+    public ClientRequest(String fileName, long fileSize, int bufferSize) {
         this.fileName = fileName;
         this.fileSize = fileSize;
         this.bufferSize = bufferSize;
@@ -28,7 +28,7 @@ public class ClientRequest implements Serializable {
         return fileSize;
     }
 
-    public long getBufferSize() {
+    public int getBufferSize() {
         return bufferSize;
     }
 }
