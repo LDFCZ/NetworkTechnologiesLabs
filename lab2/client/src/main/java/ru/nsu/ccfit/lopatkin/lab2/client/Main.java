@@ -9,7 +9,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        String host = "192.168.1.219";
+        String host = "";
         //String host = args[0];
 
         int port = 8080;
@@ -20,7 +20,7 @@ public class Main {
         //    return;
         //}
 
-        String filePath = "C:\\Users\\loopa\\vasyas_projects\\NSU\\NetworkTechnologiesLabs\\lab2\\client\\target\\test.mp4";
+        String filePath = "C:\\Users\\loopa\\work\\NSU\\NetworkTechnologiesLabs\\lab2\\client\\10GB.bin";
         //String filePath = args[2];
 
         //byte[] bytes = filePath.getBytes(StandardCharsets.UTF_8);

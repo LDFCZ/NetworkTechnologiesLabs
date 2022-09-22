@@ -27,12 +27,13 @@ public class ClientRoutine {
     }
 
     public void startRoutine() {
+        System.out.println(this.host);
         try (Socket socket = new Socket(this.host, this.port);
              InputStream fileReader = Files.newInputStream(this.filePath);
              DataOutputStream socketDataWriter = new DataOutputStream(socket.getOutputStream());
              ObjectOutputStream socketObjectWriter = new ObjectOutputStream(socket.getOutputStream());
              ObjectInputStream socketObjectReader = new ObjectInputStream(socket.getInputStream())) {
-
+            System.out.println(socket.getInetAddress().getHostAddress());
             long fileSize = Files.size(this.filePath);
             String fileName = this.filePath.getFileName().toString();
 
