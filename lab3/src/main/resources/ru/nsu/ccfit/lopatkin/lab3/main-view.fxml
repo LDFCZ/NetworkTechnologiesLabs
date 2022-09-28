@@ -24,23 +24,19 @@
          <center>
             <ScrollPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <content>
-                  <VBox fx:id="resultsVBox" alignment="TOP_CENTER" prefHeight="405.0" prefWidth="290.0" />
+                  <VBox fx:id="resultsVBox" alignment="TOP_CENTER" prefHeight="405.0" prefWidth="290.0" spacing="5.0">
+                     <padding>
+                        <Insets left="10.0" top="10.0" />
+                     </padding></VBox>
                </content></ScrollPane>
          </center>
          <left>
             <ScrollPane maxWidth="-Infinity" minWidth="-Infinity" prefHeight="407.0" prefWidth="210.0" BorderPane.alignment="CENTER">
                <content>
-                  <VBox fx:id="descriptionVBox" alignment="TOP_CENTER" prefHeight="405.0" prefWidth="200.0">
-                     <children>
-                        <Label alignment="CENTER" prefHeight="60.0" prefWidth="200.0" text="Description">
-                           <font>
-                              <Font name="Verdana" size="30.0" />
-                           </font>
-                           <VBox.margin>
-                              <Insets top="30.0" />
-                           </VBox.margin>
-                        </Label>
-                     </children>
+                  <VBox fx:id="descriptionVBox" alignment="TOP_CENTER" spacing="10.0">
+                     <padding>
+                        <Insets left="10.0" />
+                     </padding>
                   </VBox>
                </content>
             </ScrollPane>
