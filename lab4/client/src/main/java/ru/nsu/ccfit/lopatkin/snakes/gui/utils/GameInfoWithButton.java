@@ -7,11 +7,11 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.paint.Color;
 import org.jetbrains.annotations.NotNull;
-import ru.gaidamaka.config.Config;
-import ru.gaidamaka.config.GameConfig;
-import ru.gaidamaka.net.NetNode;
-import ru.gaidamaka.net.gamelistchecker.GameInfo;
+
+import ru.nsu.ccfit.lopatkin.snakes.config.Config;
 import ru.nsu.ccfit.lopatkin.snakes.config.GameConfig;
+import ru.nsu.ccfit.lopatkin.snakes.net.NetNode;
+import ru.nsu.ccfit.lopatkin.snakes.net.gamelistchecker.GameInfo;
 
 import java.util.Objects;
 

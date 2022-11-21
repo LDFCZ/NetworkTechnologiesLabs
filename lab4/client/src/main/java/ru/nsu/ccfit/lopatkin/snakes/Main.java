@@ -10,6 +10,9 @@ import org.slf4j.LoggerFactory;
 import ru.nsu.ccfit.lopatkin.snakes.config.Config;
 import ru.nsu.ccfit.lopatkin.snakes.config.ConfigReader;
 import ru.nsu.ccfit.lopatkin.snakes.gui.controllers.GameViewController;
+import ru.nsu.ccfit.lopatkin.snakes.net.MainNodeHandler;
+import ru.nsu.ccfit.lopatkin.snakes.net.node.Role;
+import ru.nsu.ccfit.lopatkin.snakes.presenter.MoveHandler;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -51,6 +54,7 @@ public class Main extends Application {
             stage.setScene(new Scene(root));
             stage.sizeToScene();
             stage.show();
+            System.out.println("!!!!!!!!!!");
         } catch (UnknownHostException e) {
             logger.error("Cant get multicast address by host={}", MULTICAST_HOST);
         } catch (IOException e) {
