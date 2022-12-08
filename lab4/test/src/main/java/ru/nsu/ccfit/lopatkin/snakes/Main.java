@@ -24,15 +24,15 @@ public class Main extends Application {
     private static final String GAME_VIEW_FXML_PATH = "GameView.fxml";
     private static final String MULTICAST_HOST = "239.192.0.4";
     private static final int MULTICAST_PORT = 9291;
-    private static int port = 0;
+    private static int port = 8081;
 
     public static void main(String[] args) {
-        try {
-            port = Integer.parseInt(args[0]);
-        } catch (NumberFormatException e) {
-            logger.error("Cant parse port={}", args[0], e);
-            return;
-        }
+        //try {
+        //    port = Integer.parseInt(args[0]);
+        //} catch (NumberFormatException e) {
+        //    logger.error("Cant parse port={}", args[0], e);
+        //    return;
+        //}
         launch(args);
     }
 
